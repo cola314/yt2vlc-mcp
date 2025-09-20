@@ -18,23 +18,29 @@ python main.py
 
 ## MCP 클라이언트 연결
 
-### Claude Desktop 연결
+### Claude Desktop 연결 (프록시 사용)
 
-Claude Desktop의 설정 파일 (`%APPDATA%\Claude\claude_desktop_config.json`)에 다음을 추가하세요:
+Claude Desktop은 원격 MCP 서버를 직접 사용할 수 없으므로 프록시 서버를 사용합니다.
+
+1. **MCP 서버 실행** (터미널 1):
+```bash
+python main.py
+```
+
+2. **프록시 서버 설정**: Claude Desktop 설정 파일 (`%APPDATA%\Claude\claude_desktop_config.json`)에 다음을 추가:
 
 ```json
 {
   "mcpServers": {
     "yt2vlc-mcp": {
-      "transport": {
-        "type": "http",
-        "host": "127.0.0.1",
-        "port": 8000
-      }
+      "command": "python",
+      "args": ["/path/to/proxy_server.py"],
     }
   }
 }
 ```
+
+**구조**: `Claude Desktop → STDIO → proxy_server.py → HTTP → main.py`
 
 ### Cursor 연결
 
@@ -69,4 +75,4 @@ https://www.youtube.com/watch?v=... 이 영상을 VLC로 재생해줘
 - Python 3.7+
 - VLC Media Player
 - yt-dlp
-- Git Bash (Windows의 경우)
+- Git Bash
